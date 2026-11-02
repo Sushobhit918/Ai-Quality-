@@ -30,5 +30,10 @@
         "service": "frontend"
       }
     }
-  ]
+  ],
+  "functions": {
+    "backend/app.py": {
+      "excludeFiles": "{frontend/**,data/**,models/**,tests/**,**/tests/**,**/__pycache__/**,**/*.pyc,**/*.joblib,**/*.csv,**/*.arff,.git/**}"
+    }
+  }
 }
