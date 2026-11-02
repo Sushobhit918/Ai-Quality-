@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:8000";
+// The Vercel frontend and backend share one origin. The /api prefix is
+// routed to the FastAPI service by the root vercel.json rewrites.
+const API_BASE = "/api";
 
 async function post(path, body) {
   const response = await fetch(`${API_BASE}${path}`, {
