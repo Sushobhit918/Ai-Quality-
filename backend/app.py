@@ -1,8 +1,7 @@
 from __future__ import annotations
-import os
 from dotenv import load_dotenv
 
-# Load environment variables from the .env file BEFORE starting the app
+# Load local environment variables before importing application services.
 load_dotenv()
 
 from fastapi import FastAPI
@@ -15,8 +14,12 @@ app = FastAPI(
     title="AI-Powered Software Quality Platform",
     version="1.0.0",
     description="Code analysis, defect prediction, test intelligence, bug reporting, semantic search, and Gemini-powered developer assistance.",
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
 )
 
+# The frontend and API share one Vercel origin. CORS remains enabled for
+# local development and any explicitly configured external clients.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,9 +28,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(analysis_router)
+# Vercel's service rewrite preserves the incoming /api prefix.
+app.include_router(analysis_router, prefix="/api")
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health() -> dict:
     return {"status": "ok"}
